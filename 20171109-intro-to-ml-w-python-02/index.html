@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Pythonで始める機械学習</title>
+  <meta name="description" content="Pythonで始める機械学習">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      font-style: normal;
+      font-weight: 400;
+      src: local("Noto Sans CJK JP"),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff2) format('woff2'),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff) format('woff'),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.otf) format('opentype');
+    }
+    section.table > table {
+      font-size: 0.5em;
+    }
+    .reveal h1, .reveal h2, .reveal li, .reveal tr {
+      font-family: "Noto Sans JP", "Source Sans Pro", Helvetica, sans-serif;
+    }
+    .reveal h1 {
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Pythonではじめる機械学習
+2017/11/10 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 2章 教師あり学習
+* 2.3 教師あり機械学習アルゴリズム
+  * 2.3.8 ニューラルネットワーク
+* 2.4 クラス分類器の不確実性推定
+* 2.5 まとめと展望
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8 ニューラルネットワーク
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8.1 ニューラルネットワークモデル
+* 多層パーセプトロン(MLP)は線形モデルを係数を何層も持てるよう一般化したもの
+* 隠れ層で入力の重み付き和に非線形関数を適用することで線形モデルより強力に
+  * ReLUやtanh
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8.2 ニューラルネットワークのチューニング
+
+* 隠れ層のユニット数を増やせば複雑に
+* 隠れ層の数を増やせば複雑に
+* 係数の正則化でも複雑さを調整可能
+* 初期値が乱数なので、毎回異なるモデルが構築される
+* 特徴量のスケールを揃える必要がある
+  * 理想は平均が0で分散が1
+* scikit-learnじゃなくてディープラーニングライブラリを使え
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8.3 長所、短所、パラメータ
+## 長所
+* 大量のデータを利用して複雑なモデルを構築可能
+* 十分な計算時間、データがあり慎重にパラメータを調整すれば他のアルゴリズムに勝てることが多い
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8.3 長所、短所、パラメータ
+## 短所
+* 訓練に時間がかかる
+* 慎重な前処理が必要
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.3.8.3 長所、短所、パラメータ
+## パラメータ
+* 最も重要なのは隠れ層の数とユニット数
+* 隠れ層は1つか2つから始める
+* ユニット数は入力層と同じぐらい、ただし数千より多くなることは稀
+* 最初は大きなネットワークで過剰適合させて、訓練データを学習できるか確かめる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.4 クラス分類器の不確実性推定
+* scikit-learnにはクラス分類器の予測に対する不確実性の推定ができる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.4.1 決定関数
+* 予測の確信度
+* その予測をどれぐらい確信しているかという度合い
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.4.2 確率の予測
+* 確信度の確率バージョン
+* 確信度と実際の正答率が一致しているとき、較正されているという
+  * 確信度70%の予測は70%正解する、みたいな
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.4.3 他クラス分類の不確実性
+* 確信度が最も大きいクラスが予測として選ばれる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 2.5 まとめと展望
+* モデルの複雑さと汎化
+* 適合不足と過剰適合
+* 性能を出すには適切なパラメータが必要
+* 特徴量のスケールに注意
+    </script>
+  </section>
+
+  <section data-markdown class="table">
+    <script type="text/template">
+| アルゴリズム             | データ量 |高次元|前処理|パラメータ|学習|予測|説明|
+|---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 最近傍法                 | 小 | - | -    |      | 速 | 遅 | 容易 |
+| 線形モデル               | 大 | ✔ | -    |      | 速 | 速 | できる | 
+| ナイーブベイズ           | 大 | ✔ | -    |      | 速 | 速 | |
+| 決定木                   | -  | - | -    |      | 速 | 速 | 容易 |
+| ランダムフォレスト       | 大 | × | -    |      | 速 | 速 | |
+| 勾配ブースティング決定木 | -  | × | -    | 敏感 | 遅 | 速 | |
+| サポートベクタマシン     | 中 | ✔ | 必要 | 敏感 | 遅 | 遅 | |
+| ニューラルネットワーク   | 大 | ✔ | 必要 | 敏感 | 遅 |    | |
+    </script>
+  </section>
+
+  <section>
+    <img src="./images/ml_map.png">
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    history: true,
+    keyboard: true,
+    overview: true,
+    center: true,
+    touch: true,
+    embedded: window.location.search.match(/embedded/gi),
+
+    // note / fade / slide / convex / concave / zoom
+    transition: "fade",
+
+    width: "90%",
+    height: "100%",
+    margin: 0,
+    minScale: 1,
+    maxScale: 1,
+
+    math: {
+      mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js",
+      config: "TeX-AMS_HTML-full",
+    },
+
+    dependencies: [
+      { src: "lib/js/classList.js", condition: () => !document.body.classList },
+      { src: "plugin/markdown/marked.js", condition: () => !!document.querySelector("[data-markdown]") },
+      { src: "plugin/markdown/markdown.js", condition: () => !!document.querySelector("[data-markdown]") },
+      { src: "plugin/highlight/highlight.js", async: true, callback: () => hljs.initHighlightingOnLoad() },
+
+      // Alt + Click
+      { src: "plugin/zoom-js/zoom.js", async: true },
+
+      // Speaker notes (Press S key)
+      { src: "plugin/notes/notes.js", async: true },
+
+      // MathJax
+      { src: "plugin/math/math.js", async: true },
+    ]
+  });
+</script>
+</body>
+</html>
