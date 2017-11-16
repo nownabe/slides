@@ -2,7 +2,7 @@
 
 ignores=".git|reveal.js|template"
 
-slides=$(find . -maxdepth 1 -type d | egrep -v "^\./($ignores)$|^\.$")
+slides=$(find . -maxdepth 1 -type d | egrep -v "^\./($ignores)$|^\.$" | sort)
 
 # echo $slides
 
