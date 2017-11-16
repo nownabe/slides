@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Pythonではじめる機械学習</title>
+  <meta name="description" content="Pythonではじめる機械学習">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      font-style: normal;
+      font-weight: 400;
+      src: local("Noto Sans CJK JP"),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff2) format('woff2'),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff) format('woff'),
+           url(https://fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.otf) format('opentype');
+    }
+    section.table > table {
+      font-size: 0.5em;
+    }
+    .reveal h1, .reveal h2, .reveal li, .reveal tr {
+      font-family: "Noto Sans JP", "Source Sans Pro", Helvetica, sans-serif;
+    }
+    .reveal h1 {
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Pythonではじめる機械学習
+2017/11/16 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 3章 教師なし学習と前処理
+  * 3.1 教師なし学習の種類
+  * 3.2 教師なし学習の難しさ
+  * 3.3 前処理とスケール変換
+    * 3.3.1 さまざまな前処理
+    * 3.3.2 データ変換の適用
+    * 3.3.3 訓練データとテストデータを同じように変換する
+    * 3.3.4 教師あり学習における前処理の効果
+  * 3.4 次元削減、特徴量抽出、多様体学習
+    * 3.4.1 主成分分析 (PCA)
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.1 教師なし学習の種類
+
+* 教師なし変換
+  * もとのデータを変換する
+  * 人間やアルゴリズムにわかりやすいデータへ
+  * 次元削減、トピック抽出
+* クラスタリングアルゴリズム
+  * データをグループに分ける
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.2 教師なし学習の難しさ
+* アルゴリズムの評価が困難
+  * 出力がどうあるべきかわからない
+* データを理解するために用いられる
+* 教師あり学習の前処理としても
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.3 前処理とスケール変換
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 3.3.1 様々な前処理
+
+* StandardScaler
+  * それぞれの特徴量が平均0、分散1となるように変換
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 3.3.1 様々な前処理
+
+* RobustScaler
+  * 平均と分散のかわりに中央地と四分位数
+  * 外れ値を無視
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 3.3.1 様々な前処理
+
+* MinMaxScaler
+  * データが0から1の間になるように変換
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 3.3.1 様々な前処理
+
+* Normalizer
+  * 特徴量ベクトルの長さが1になるように変換
+  * データポイントを超球面に投射
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 3.3.3 訓練データとテストデータを同じように変換する
+
+* 訓練データでfitしたものでテストデータも変換
+* テストデータでfitはダメ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.4 次元削減、特徴量抽出、多様体学習
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.4.1 主成分分析 (PCA)
+
+* データセットの特徴量を回転する
+  * 最も分散が大きい方向を第1主成分とする
+  * 第1主成分と直行し最も情報を持つ方向を第2主成分とする
+  * これを繰り返す
+* もとの特徴量と同じ数の主成分が存在する
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.4.1.1 cancerデータセットのPCAによる可視化
+
+* PCAは高次元データセットの可視化で用いられる
+* ただし主成分の解釈は困難
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.4.1.2 固有顔による特徴量抽出
+
+* Labeled Faces in the Wiled データセット
+* PCAで特徴量抽出
+* 主成分の一部で元データをある程度再現できる
+* 全主成分で完全に再現
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    history: true,
+    keyboard: true,
+    overview: true,
+    center: true,
+    touch: true,
+    embedded: window.location.search.match(/embedded/gi),
+
+    // note / fade / slide / convex / concave / zoom
+    transition: "fade",
+
+    width: "90%",
+    height: "100%",
+    margin: 0,
+    minScale: 1,
+    maxScale: 1,
+
+    math: {
+      mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js",
+      config: "TeX-AMS_HTML-full",
+    },
+
+    dependencies: [
+      { src: "lib/js/classList.js", condition: () => !document.body.classList },
+      { src: "plugin/markdown/marked.js", condition: () => !!document.querySelector("[data-markdown]") },
+      { src: "plugin/markdown/markdown.js", condition: () => !!document.querySelector("[data-markdown]") },
+      { src: "plugin/highlight/highlight.js", async: true, callback: () => hljs.initHighlightingOnLoad() },
+
+      // Alt + Click
+      { src: "plugin/zoom-js/zoom.js", async: true },
+
+      // Speaker notes (Press S key)
+      { src: "plugin/notes/notes.js", async: true },
+
+      // MathJax
+      { src: "plugin/math/math.js", async: true },
+    ]
+  });
+</script>
+</body>
+</html>
