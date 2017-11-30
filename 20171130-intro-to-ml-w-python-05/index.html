@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Pythonではじめる機械学習</title>
+  <meta name="description" content="Pythonではじめる機械学習">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Pythonではじめる機械学習
+
+2017/11/30 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+5章 モデルの評価と改良
+
+* 5.1 交差検証
+  * 5.1.1 scikit-learnでの交差検証
+  * 5.1.2 交差検証の利点
+  * 5.1.3 層化k分割交差検証と他の戦略
+* 5.2 グリッドサーチ
+  * 5.2.1 単純なグリッドサーチ
+  * 5.2.2 パラメータの過剰適合の危険性と検証セット
+  * 5.2.3 交差検証を用いたグリッドサーチ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5章 モデルの評価と改良
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1 交差検証
+* 交差検証
+  * 汎化性能を評価する手法
+* k分割交差検証
+  * データセットをk個に分割
+  * 順に1つの分割をテストデータとする
+  * 残りのk-1個の分割を訓練データとする
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.1 scikit-learnでの交差検証
+* `cross_val_score` 関数で交差検証できる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.2 交差検証の利点
+* すべてのデータが正確に1度だけテストされる
+* 計算コストは単純にk倍になる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.3 層化k分割交差検証と他の戦略
+## 層化k分割交差検証
+* それぞれの正解ラベルに対して均等に分割する
+* 分割に対する正解ラベルの偏りをなくす
+* クラス分類では層化k分割交差検証を用いる
+  * 回帰ではk分割交差検証
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.3 層化k分割交差検証と他の戦略
+## 交差検証のより詳細な制御
+* データをシャッフルして分割するのもあり
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.3 層化k分割交差検証と他の戦略
+## 1つ抜き交差検証
+* サンプルの数だけ分割する
+* 個々の分割が1つのサンプルのみ
+* 毎回1サンプルのみテストする
+* データセットが小さいとき良い推定
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.3 層化k分割交差検証と他の戦略
+## シャッフル分割交差検証
+* scikit-learnの機能のひとつ
+* 非常に柔軟な交差検証手法
+* 分割数、テストデータの割合、使用するデータの割合、繰り返し数など指定できる
+* 層化もできる
+* 大きいデータには一部のデータのみ使うなどの使い方も
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.1.3 層化k分割交差検証と他の戦略
+## グループ付き交差検証
+* 未知のグループに対する予測を検証したいとき
+  * 表情からの感情推定で学習に使った人を評価したくない
+  * 病気の推定で、学習に使った人を評価したくない
+* それぞれのグループは分割されず、完全に訓練データかテストデータに
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2 グリッドサーチ
+* 最良のパラメータを見つける方法
+* 最もよく用いられる
+* すべてのパラメータの組合せを試す
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.1 単純なグリッドサーチ
+* すべてのパラメータの組合せを試す
+* 組合せのうち、もっともスコアがよかったものを採用
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.2 パラメータの過剰適合の危険性と検証セット
+* グリッドサーチにテストデータを用いてはいけない
+  * テストデータに適合するので汎化性能を評価できない
+* 検証データを作る
+  * 訓練データをさらに分割
+  * グリッドサーチにおけるパラメータの評価用
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.2 交差検証を用いたグリッドサーチ
+* それぞれのパラメータの組合せに対して交差検証する
+  * 検証データを固定しない
+* よりよく汎化性能を見積もる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.2 交差検証を用いたグリッドサーチ
+## 交差検証の結果の解析
+* ヒートマップで可視化できる
+  * 2次元のグリッドサーチの場合
+* グリッドサーチには適切なレンジの設定が必要
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.2 交差検証を用いたグリッドサーチ
+## ネストした交差検証
+* よりよく評価する手法
+* 最終的なスコアも交差検証によって求める
+  * テストデータを固定すると評価がそれに依存する
+* 未来予測のモデルを作ることはできない
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 5.2.2 交差検証を用いたグリッドサーチ
+## 交差検証とグリッドサーチの並列化
+* ひとつひとつの学習を並列化できる
+* scikit-learnでは入れ子の並列化はできない
+* scikit-learnでは複数マシンによる並列化はできない
+  * IPythonの並列化フレームワークを使える
+* spark-sklearnではSparkクラスタでグリッドサーチを実行できる
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
