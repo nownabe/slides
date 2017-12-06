@@ -1,6 +1,8 @@
 nownabe's slides
 ================
 
+[Index](https://nownabe.github.io/slides/)
+
 ```bash
 Usage: make [task]
 
