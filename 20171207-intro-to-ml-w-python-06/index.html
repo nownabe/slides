@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Pythonではじめる機械学習</title>
+  <meta name="description" content="Pythonではじめる機械学習">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Pythonではじめる機械学習
+
+2017/12/07 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+6章 アルゴリズムチェーンとパイプライン
+
+* 6.1 前処理を行う際のパラメータ選択
+* 6.2 パイプラインの構築
+* 6.3 パイプラインを用いたグリッドサーチ
+* 6.4 汎用パイプラインインターフェイス
+* 6.5 前処理ステップとモデルパラメータに対するグリッドサーチ
+* 6.6 グリッドサーチによるモデルの選択
+* 6.7 まとめと展望
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6章 アルゴリズムチェーンとパイプライン
+* 機械学習タスクでは複数の処理を連鎖的に実行
+  * データの前処理
+  * モデルの学習
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.1 前処理を行う際のパラメータ選択
+* 前処理に使うデータにも気を使う必要がある
+  * グリッドサーチの外で訓練データを正規化
+  * => 検証時に使う検証データも使ってしまっている
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.2 パイプラインの構築
+* scikit-learnではPipelineを使用
+  * 複数のアルゴリズムの組合せ
+  * 1つのEstimatorを構築
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.3 パイプラインを用いたグリッドサーチ
+* 正しくデータを使える
+* グリッドサーチのパラメータ指定が変化
+  * `{パイプライン名}__{パラメータ名}`
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.4 汎用パイプラインインターフェイス
+* `Pipeline`は任意の個数のEstimatorを連結できる
+* 最後以外のステップ
+  * `fit`メソッドと`transform`メソッドが必要
+* 最後のステップ
+  * `fit`メソッドが必要
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.4 汎用パイプラインインターフェイス
+* `make_pipeline` 関数はステップ名を自動生成
+* `named_step` 属性で各ステップにアクセス可能
+* グリッドサーチの場合もパイプラインにアクセス可能
+  * `best_estimator_` 属性
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.5 前処理ステップとモデルパラメータに対するグリッドサーチ
+* パイプラインによって前処理のパラメータとモデルのパラメータを同時にグリッドサーチで探索可能
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.6 グリッドサーチによるモデルの選択
+* Pipelineによるグリッドサーチでは各ステップにおけるアルゴリズム自体の探索も可能
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.7 まとめと展望
+* Pipelineで複数の処理を適切にまとめることは非常に重要
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
