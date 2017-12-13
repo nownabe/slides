@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Pythonではじめる機械学習</title>
+  <meta name="description" content="Pythonではじめる機械学習">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Pythonではじめる機械学習
+
+2017/12/14 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+## 7章 テキストデータの処理
+* 7.8 より進んだトークン分割、語幹処理、見出し語化
+* 7.9 トピックモデリングと文書クラスタリング
+* 7.10 まとめと展望
+
+## 8章 おわりに
+* 8.1 機械学習問題へのアプローチ
+* 8.2 プロトタイプから運用システムへ
+* 8.3 運用システムのテスト
+* 8.4 独自Estimatorの構築
+* 8.5 ここからどこへ行くのか
+* 8.6 結論
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 7.8 より進んだトークン分割、語幹処理、見出し語化
+* 汎化性能が良くなるようにトークンを加工する
+* 語幹処理
+  * 単語の語幹をトークンとする
+  * drawbacks -> drawback
+  * was -> wa
+* 見出し語化
+  * 単語の見出し語を使って表現する
+  * drawbacks -> drawback
+  * was -> be
+* 見出し語化の方が高度でより良い結果が得られる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 7.9 トピックモデリングと文書クラスタリング
+* トピックモデリング
+  * テキストデータによく用いられる
+  * それぞれの文書に1つ以上のトピックを割り当て
+  * やることはPCAなどの成分分析と同様
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 7.9.1 LDA (Latent Dirichlet Allocation)
+* 同時に現れる頻度の高いトピックを探索
+* トピック => 単語の集合
+* 文書をトピックの重み付き和として表現
+* 大規模データの理解に有用
+* LDAの結果を教師データにすることも可能
+  * 小規模データのとき有効
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 7.10 まとめと展望
+* NLP(自然言語処理)のクラス分類について説明
+* BoW表現はテキストのクラス分類に有効
+* オライリーの[入門自然言語処理](http://amzn.to/2z2WNZk)がオススメ
+* [情報検索の基礎](http://amzn.to/2AbQVeh)もオススメ
+* NLPはword2vecで飛躍的に進展
+* RNNが勢いある
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8章 おわりに
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.1 機械学習問題へのアプローチ
+* 機械学習システムを作るステップ
+  * 問題定義
+  * 効果の確認
+  * 成功の測定方法の確認
+  * データ収集
+  * プロトタイプ構築
+* 本番投入後もフィードバックループが継続
+* 人間をシステムに組み込むのもあり
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2 プロトタイプから運用システムへ
+* Pythonやscikit-learnは運用システムにも使える
+* プロトタイプと運用システムでは別の性質が要求される
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.3 運用システムのテスト
+* オフライン評価
+  * 事前に収集したデータで評価
+* ライブテスト
+  * システム導入後
+  * A/Bテスト
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.4 独自Estimatorの構築
+* scikit-learn互換のEstimator
+* PipelineやGridSearchCVが使える
+* BaseEstimatorと用途ごとのMixinを継承
+* `fit`や`predict`などを実装
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.5 ここからどこへ行くのか
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.1 理論
+* 本を読め
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.2 他の機械学習フレームワークとパッケージ
+* StatsModel
+* R
+* Vowpal Wabbit
+* MLlib
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.3 ランキング、推薦システム、その他の学習
+* 分類と回帰以外のタスク
+  * ランキング
+  * 推薦システム
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.4 確率モデル、推論、確率プログラミング
+* 問題に特化したモデルを直接計算
+* 確率プログラミング言語
+  * PyMC
+  * Stan
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.5 ニューラルネットワーク
+* 最近の人工知能技術のブレークスルーはNNの恩恵
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.6 大規模データセットへのスケール
+* アウトオブコア学習
+  * 外部記憶装置から少数ずつ学習
+  * 時間がかかる
+* クラスタ並列化
+  * Hadoop, Spark
+  * Vowpal Wabbit
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 8.5.7 名誉を得る
+* Kaggleオススメ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.6 結論
+* おわた :tada::tada:
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
