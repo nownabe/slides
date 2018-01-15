@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
 
-  <title>記事中の禁止画像を一括置換した話</title>
-  <meta name="description" content="過去に作成された記事で利用されている禁止画像を類似画像検索エンジンを開発して一括置換した話">
+  <title>記事の怪しい画像を一括置換した話</title>
+  <meta name="description" content="過去に作成された記事で利用されている権利的に怪しい画像を類似画像検索エンジンを開発して一括置換した話">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="author" content="nownabe">
@@ -34,7 +34,7 @@
 
   <section data-markdown>
     <script type="text/template">
-# 記事中の禁止画像を自動置換した話
+# 記事の怪しい画像を自動置換した話
 
 2018/01/18 @nownabe
     </script>
@@ -43,9 +43,23 @@
   <section data-markdown>
     <script type="text/template">
 # 概要
-* LOCARIの記事で一部利用禁止画像が存在
-* 利用禁止画像を類似画像で一括置換した
+* LOCARIの記事で権利的に怪しい画像が一部存在
+* 怪しい画像をホワイトな画像で一括置換
 * そのために類似画像検索エンジンを構築
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 背景
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 記事中の怪しい画像
+* 権利的にホワイトとは言い切れない画像が存在
+* 一括で置換する必要があった
     </script>
   </section>
 
@@ -63,15 +77,6 @@
 
   <section data-markdown>
     <script type="text/template">
-# LOCARIにおける画像
-
-* LOCARIの記事には多数の画像
-* 人気記事になるには画像の使い方が重要
-    </script>
-  </section>
-
-  <section data-markdown>
-    <script type="text/template">
 # 記事のアップロード方法
 * ローカルファイル
 * 任意のURL
@@ -82,8 +87,8 @@
 
   <section data-markdown>
     <script type="text/template">
-# URLからのアップロード
-* 知らぬ間に権利侵害する可能性
+# 権利侵害の可能性
+* 任意URLからアップロード
 * メディアとして対策が必要
   * できれば機械的な対策
     </script>
@@ -91,36 +96,35 @@
 
   <section data-markdown>
     <script type="text/template">
-# 新規記事における対策
-* 新規記事は厳しくチェック
-* 許可済み画像のプール
+# 新規記事は厳しくチェック
+* 機械的に対策済み
+* 許諾済み画像のプール
 * URLホワイトリスト
 * URLブラックリスト
-* 出典の明示が必要
+* 出典明示が必須
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
 # 過去記事の問題
-* 厳しくチェックする前の記事
-  * 利用禁止画像が存在する可能性
-* 新しくブラックリストの対象になった画像
-  * ブラックリストは随時更新
+* 怪しい画像が**1万件**以上
+  * ホワイトと言い切れない
+  * 権利侵害してるかもしれない
+* 一括でホワイトな画像に置換したい
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
-# 過去記事の問題
-* **利用禁止画像が1万件以上**
-  * ブラックリスト整備がある程度落ち着いた時点で
+# 怪しい画像の一括置換
     </script>
   </section>
 
+
   <section data-markdown>
     <script type="text/template">
-# 過去記事の禁止画像への対応案
+# 過去記事の対応案
 * 一括で非表示
 * 人手で置換
 * 自動で置換
@@ -129,7 +133,7 @@
 
   <section data-markdown>
     <script type="text/template">
-# 過去記事の禁止画像への対応案
+# 過去記事の対応案
 * ~~一括で非表示~~
   * 記事としての価値が低下
 * 人手で置換
@@ -139,7 +143,7 @@
 
   <section data-markdown>
     <script type="text/template">
-# 過去記事の禁止画像への対応案
+# 過去記事の対応案
 * ~~一括で非表示~~
   * 記事としての価値が低下
 * ~~人手で置換~~
@@ -150,7 +154,7 @@
 
   <section data-markdown>
     <script type="text/template">
-# 過去記事の禁止画像への対応案
+# 過去記事の対応案
 * ~~一括で非表示~~
   * 記事としての価値が低下
 * ~~人手で置換~~
@@ -163,7 +167,7 @@
 
   <section data-markdown>
     <script type="text/template">
-# 過去記事の禁止画像への対応案
+# 過去記事の対応案
 * ~~一括で非表示~~
   * 記事としての価値が低下
 * ~~人手で置換~~
@@ -177,57 +181,280 @@
 
   <section data-markdown>
     <script type="text/template">
-# 禁止画像置換システム
+# 画像置換システム
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# 画像置換システム
+* 3つの構成要素
+  * 画像 - ベクトル変換器
+  * 類似画像検索エンジン
+  * 置換候補チェッカー
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+<img src="images/2.png" style="height: 80vh">
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# 類似画像検索エンジン
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+<img src="images/16.png">
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# 類似画像検索
+* 画像をなんらかのベクトルで表現
+* ベクトル集合から類似度が高い画像を抽出
+
+<img src="images/15.png">
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# ベクトル表現
+* 画像をなんらかの方法でベクトルとして表現
+  * ヒストグラム
+  * SIFT
+  * SURF
+  * HOG
+  * Deep Features
+* 本システムでは**物体認識ラベル**を採用
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# Vision APIによる物体認識ラベル
+
+<img src="images/3.png">
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# 物体認識ラベルによるベクトル表現
+* 「記事における画像置換」という文脈が重要
+  * 類似 = 置換しても記事が違和感なく読める
+* 物体認識ラベルが似ていれば記事が読めると仮定
+  * 同種の物体が写っている
+  * 色合いや雰囲気も似ている
+  * LOCARIの画像はだいたい雰囲気なのでこれで十分？
+* 1種のDeep Featuresとも考えられる
+  * Vision APIはGoogle様のDeep Learning結果
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# コサイン類似度
+* 類似度にはコサイン類似度を使用
+* ベクトル間の類似度として一般的な指標
+* ベクトルが同じ方向を向いていれば高い
+
+\\begin{eqnarray}
+cos(\vec{a},\vec{b})=\frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}
+\\end{eqnarray}
     </script>
   </section>
 
   <section data-markdown>
     <script type="text/template">
+# 検索例
+<img src="images/4.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/5.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/6.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/7.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/8.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/9.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/10.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/11.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/12.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 検索例
+<img src="images/13.png" style="height: 70vh">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+なかなか上手くいってる気がする 🎉
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 失敗の原因
+* Vision APIの結果がよくない
+* 重要度の低い特徴量が強く影響している
+* 1つの画像ファイルに複数写真
+* 類似画像がない
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 最終的に
+* まぁよさそう
+* しきい値などの条件を調整
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 実装
+* Pythonでプロトタイプ実装
+  * 2 min / search
+  * めっちゃ遅い
+  * 実装もいまいち
+* Golangで再実装
+  * 2 sec / search
+  * 起動時に全ベクトルをメモリに
+  * 類似度をGoroutineで並列計算
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 置換候補チェッカー
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+<img src="images/17.png">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 置換候補チェッカー
+* 人手で置換候補画像を最終チェック
+  * 公序良俗に反してないか
+  * LOCARIブランドを既存しないか
+* 人手チェックをサポートするアプリ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+<img src="images/14.png">
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# チェック作業
+* 怪しい画像に最も類似する5枚の画像が置換候補
+* 置換可能ならAccept
+* 置換不可ならDeny
+* JSONで結果の保存/再開
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 実装
+* Reactでブラウザアプリとして実装
+* `index.html`と`bundle.js`があれば動作
+* React力が足りずガタつく 😂
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 最終的に
+* 1,500枚ぐらいの画像をチェック
+* 候補画像は7,500枚❢
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+千葉さんお疲れ様でした 🙏
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 実記事の画像差替え
+* Railsのrakeタスクで差替え
+* チェッカーの出力JSONを使用
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# まとめ
+* 物体認識ラベルで画像をベクトル表現
+* コサイン類似度で類似画像検索
+* 簡単な手法だがそこそこいい感じ
+* 最後は気合の人手チェック
     </script>
   </section>
 
