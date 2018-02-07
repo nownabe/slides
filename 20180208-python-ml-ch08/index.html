@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Python機械学習プログラミング 第8章</title>
+  <meta name="description" content="Python機械学習プログラミング 第8章">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# Python機械学習プログラミング
+
+機械学習勉強会
+
+2018/02/08 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 第8章 機械学習の適用1 - 感情分析
+  * 8.1 IMDbの映画レビューデータセットの取得
+  * 8.2 BoWモデルの紹介
+  * 8.3 さらに大規模なデータの処理: オンラインアルゴリズムとアウトオブコア学習
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.1 IMDbの映画レビューデータセットの取得
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# IMDb映画レビューデータセット
+* IMDbという映画情報サイトのレビューデータ
+* 極性が付与されている
+* 全5万件のレビュー
+  * 訓練データ、テストデータ 25000件ずつ
+  * そのうちどちらもPositive/Negative 12500件ずつ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+IMDbデータセットの中身はこんな感じ
+
+```
+aclImdb
+├── README
+├── imdb.vocab
+├── imdbEr.txt
+├── test
+└── train
+```
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+実は前処理済み
+
+* `imdb.vocab`: ボキャブラリ
+* `imdbEr.txt`: 各単語の極性
+* `(train|test)/labeldBow.feat`: libsvm形式のベクトル表現
+
+生データもあるよ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2 BoW モデルの紹介
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# BoW: Bag-of-Words
+* 自然言語文書のモデル化手法の1種
+* 文書における各単語の出現頻度に注目
+* 各単語を次元、出現頻度を要素とする
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+> "The sun is shining, the weather is sweet."
+
+BoWでモデル化すると、8次元のベクトルで表現可能
+
+```ruby
+{
+  "The": 1,
+  "sun": 1,
+  "is": 2,
+  "shining": 1,
+  ",": 1,
+  "the": 1,
+  "weather": 1,
+  "sweet": 1,
+  ".": 1
+}
+```
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+> "The sun is shining, the weather is sweet."
+
+コンピュータは単語の意味に興味はないのでこれでいい
+
+```ruby
+{
+  0: 1,
+  1: 1,
+  2: 2,
+  3: 1,
+  4: 1,
+  5: 1,
+  6: 1,
+  7: 1,
+  8: 1
+}
+```
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2.1 単語を特徴ベクトルに変換する
+* scikit-learnでは`sklearn.feature_extraction.text.CountVectorizer`を使う
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2.2 TF-IDFを使って単語の関連性を評価する
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# TF-IDF
+* 文書に現れる単語の重要度の指標の1つ
+* Googleの検索エンジンでも使われていた
+* 指標の意味
+  * 文書内に高頻度で現れる単語は重要
+  * どの文書にも現れる単語は重要でない
+
+\\begin{eqnarray}
+tfidf(t, d) &=& tf(t, d) \times idf(d) \\\
+ &=& \frac{count(t, d)}{\sum_{s\in d} count(s, d)} \times \log\frac{N_D}{count_D(t)}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2.3 テキストデータのクレンジング
+
+* HTMLタグの除去
+* 表記ゆれの統一
+* 記号の除去
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2.4 ドキュメントをトークン化する
+
+* run, ran, running => runとして扱いたい
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ステミング
+* アルゴリズムで単語を語幹に変換
+* Porterアルゴリズムが有名
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ストップワード除去
+* ストップワード辞書に基づきストップワードを除去
+* is, and, aなど、どの文書にも現れる重要でない単語
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.2.5 ドキュメントを分類するロジスティック回帰モデルのトレーニング
+省略
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 8.3 さらに大規模なデータの処理: オンラインアルゴリズムとアウトオブコア学習
+* SGDでアウトオブコア学習すれば速い！
+* 大規模データもいける！
+* 単語と次元のマッピングはHashingVectorizer
+  * 未来に現れる単語はわからないため
+  * 未知語をどう扱うかという問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+おわり
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
