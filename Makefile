@@ -33,6 +33,7 @@ template/%: reveal.js/%
 .PHONY: new
 new:
 	cp -r template ${name}
+	make index
 
 .PHONY: index
 index:
