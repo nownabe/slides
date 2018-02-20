@@ -1,0 +1,353 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第1回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第1回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/02/22 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 1. 必要な数学的知識
+  * 1.1 準備と本書における約束事
+  * 1.2 最適化問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1. 必要な数学的知識
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+本章で紹介するのは3つ
+
+* 最適化問題
+* 確率論
+* 情報理論
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.1 準備と本書における約束事
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理におけるタスク
+* 単語分割
+* 品詞タグ付け
+* 構文解析
+* 文書分類
+* 照応解析、質問応答、機械翻訳、…
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 用語
+* 事例: 各タスクでの処理単位
+* コーパス: 用例の集まり
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 文字の使い方
+* $x, y, z$: 変数
+* $x_1, x_2, x_3$: 変数 (ベクトルの要素など)
+* $X=x$: $X$は確率変数、$x$はその値
+* $x^{(1)}, x^{(2)}, x^{(3)}$: 事例
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* $n(w,d), n_{w,d}$
+  * 文書$d$における単語$w$の出現回数
+* $n(w,s), n_{w,s}$
+  * 文$s$における単語$w$の出現回数
+* $N(w, c), N_{w,c}$
+  * クラス$c$に属する文書のうち$w$が出現する文書数
+* $N(c), N_c$
+  * クラス$c$に属する文書数
+* $\delta(w,d), \delta_{w,d}$
+  * 文書$d$に単語$w$が出現したら1、そうでないなら0
+* $\delta(w,s), \delta_{w,s}$
+  * 文$s$に単語$w$が出現したら1、そうでないなら0
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.2 最適化問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 最適化問題
+* ある制約のもとで関数を最適化(最大化あるいは最小化)する変数値とそのときの関数値を求める問題
+* それぞれ最大化問題、最小化問題とよばれる
+* 目的関数: 最適化したい関数
+* 最適解: 最適値を与える変数値
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+\\begin{eqnarray}
+max. f(x) &\\\\
+s.t. g(x) &\geq& 0 \\\\
+h(x) &=& 0.
+\\end{eqnarray}
+
+* $f(x)$: 目的関数
+* $g(x)\geq0$: 不等式制約
+* $h(x)=0$: 等式制約
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 実行可能解
+  * 制約を満たす解
+* 実行可能領域
+  * 実行可能解の集合
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 閉形式
+  * $x_1=...$のような形で、加減乗除や初等関数の合成関数による解の表し方
+  * [wikipedia](https://en.wikipedia.org/wiki/Closed-form_expression)に例がある
+* 解析的に解ける
+  * 閉形式の解が得られるとき
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 凸計画問題
+* 目的関数が改善する方向に進めば解ける
+* 解法がある程度確立されている
+* 問題を凸計画問題で表すことができれば嬉しい
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.2.1 凸集合と凸関数
+* 凸集合
+  * へこみのない集合
+  * 2つの凸集合$A, B$があったとき、$A\cap B$は凸集合
+* 上に凸な関数 (凹関数)
+  * 例: $f(x)=-x^2$
+* 下に凸な関数 (凸関数)
+  * 例: $f(x)=x^2$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 凸関数であるための条件
+* 1次の条件
+  * 関数のすべての接戦がその関数のグラフの上側にくる
+* 2次の条件
+  * $f''(x) \leq 0$
+* これらの条件を使うと関数が凸かどうか容易に示せる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 多変数関数
+* 多変数関数も2階微分が負なら上に凸
+  * ヘッセ行列が半正定値$\iff$下に凸
+  * ヘッセ行列が半負定値$\iff$上に凸
+* ヘッセ行列 $H_x$
+  * $(i, j)$成分: $\displaystyle\frac{\partial^2f(x)}{\partial x_i\partial x_j}$
+* 行列の正負
+  * 半正定値: $\boldsymbol{x}^TM\boldsymbol{x} \geq 0$
+  * 半負定値: $\boldsymbol{x}^TM\boldsymbol{x} \leq 0$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.2.2 凸計画問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 凸計画問題
+* 目的関数が凸関数
+* 実行可能領域が凸集合
+* 解析的に解けない場合、数値解法
+  * 初期値を与えてよりよい解に更新していく
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 数値解法
+* 最急勾配法
+  * $\boldsymbol{x}^{new}=\boldsymbol{x}^{old}+\epsilon\nabla_xf(x^{old})$
+  * $\epsilon$は学習率
+* ニュートン法
+  * $\boldsymbol{x}^{new}=\boldsymbol{x}^{old}+\epsilon H^{-1}_{x^{old}}\nabla_xf(x^{old})$
+  * 2階微分(ヘッセ行列)まで考慮
+  * 逆行列の計算がたいへんなので高速近似することが多い
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.2.3 等式制約付き凸計画問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 等式制約付き凸計画問題
+\\begin{eqnarray}
+max. f(x) &\\\\
+s.t. g(x) &=& 0.
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュの乗数法
+* 理解すれば読める論文の数が激増する！
+  * 確率分布のパラメータ推定
+  * EMアルゴリズム
+  * ナイーブベイズ分類器
+  * サポートベクトルマシン
+* 日本語ではラグランジュの未定乗数法とも
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュの乗数法
+* ラグランジュ関数: $L(\boldsymbol{x}, \lambda) = f(x)+\lambda g(x)$
+* $\lambda$: ラグランジュ定数
+* つまり次の連立方程式を解く
+\\begin{eqnarray}
+\nabla_xf(x)+\lambda\nabla_x g(x)=0 \\\\
+g(x)=0
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュの乗数法
+* 制約が複数ある場合
+
+\\begin{eqnarray}
+L(\boldsymbol{x},\lambda)=f(\boldsymbol{x})+\sum_i\lambda_ig_i(\boldsymbol{x})
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.2.4 不等式制約付き凸計画問題
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 不等式制約付き凸計画問題
+\\begin{eqnarray}
+max. f(x) &\\\\
+s.t. g(x) &\geq& 0.
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュ関数
+* $L(\boldsymbol{x},\lambda)=f(\boldsymbol{x})+\lambda g(\boldsymbol{x})$
+* $\lambda \geq 0$であるとする
+* 鞍点が最適解を与える
+  * $\boldsymbol{x}$に関しては最大値となり、$\lambda$に関しては最小値となる
+  * $L(\boldsymbol{x}, \lambda^\* \leq L(\boldsymbol{x}^\*, \lambda^\*) \leq L(\boldsymbol{x}^\*, \lambda)$
+  * これを満たす$(\boldsymbol{x}^\*, \lambda^\*)$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュの未定乗数法
+1. $L(\boldsymbol{x}, \lambda)$を最大化する$\boldsymbol{x}$は$\boldsymbol{x}^\*(\lambda)$と表せられる
+2. $L(\boldsymbol{x}^\*(\lambda), \lambda)$は$\lambda$に関する関数
+3. 2.の関数を$\lambda$について最小化すると$\lambda^\*$が求まる
+4. 最適解$\boldsymbol{x}^\*$も求まる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ラグランジュの未定乗数法
+* もともとの問題を主問題とよぶ
+  * $\boldsymbol{x}^\*$は主問題の最適解
+* $L(\boldsymbol{x}^\*(\lambda), \lambda)$を$\lambda$について最小化する問題を双対問題とよぶ
+  * $\lambda^\*$は双対問題の最適解
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
