@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第1回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第1回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/03/15 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 1. 必要な数学的知識
+  * 1.6 情報理論
+  * 1.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6 情報理論
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 情報理論
+
+* 情報・通信を数学的に論じる学問
+* 情報理論の応用
+  * 可逆圧縮
+  * 非可逆圧縮
+  * 伝送路符号化
+  * 暗号
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6.1 エントロピー
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# エントロピー
+
+* 平均情報量とも
+  * つまり情報の量の平均
+* 情報量 $I(x)$
+  * その情報の発生にどれだけ価値があるか
+* エントロピー $H(P)$
+  * 確率変数に対して定義される
+
+\\begin{eqnarray}
+I(x) &=& -\log P(x) \\\\
+H(P) &=& -\sum_xP(x)\log P(x)
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 条件付きエントロピー
+
+\\begin{eqnarray}
+H(X|Y=y) &=& -\sum\_xP(X=x|Y=y)\log P(X=x|Y=y) \\\\
+H(X|Y) &=& -\sum_{x,y}P(X=x,Y=y)\log P(X=x|Y=y)
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6.2 カルバック・ライブラー・ダイバージェンス
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# KLダイバージェンス
+
+* 2つの確率分布の異なり具合の尺度
+  * 同じ事象空間上の確率分布
+* 単語間の意味的な遠さを測ったりする
+* KLダイバージェンスが定義できない場合
+  * $P(x)>0, Q(x)=0$となる$x$がある
+  * 最尤推定だとあり得る
+
+\\begin{eqnarray}
+D_{KL}(P||Q) = \sum_xP(X=x)\log\frac{P(X=x)}{Q(X=x)}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6.3 ジェンセン・シャノン・ダイバージェンス
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# JSダイバージェンス
+
+* 2つの確率分布の異なり具合の尺度
+* 平均的な確率分布($R(x)$)までのKLダイバージェンスの平均
+* 定義できない状況は発生しない
+  * しばしばKLではなくJSが使われる
+
+\\begin{eqnarray}
+D\_{JS}(P||Q)&=&\frac{D\_{KL}(P||R)+D\_{KL}(Q||R)}{2} \\\\
+R(x) &=& \frac{P(x)+Q(x)}{2}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6.4 自己相互情報量
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 自己相互情報量
+
+* PMI: Pointwise Mutual Information
+* 2つの単語の関連度合いなど
+  * 共起しやすければ$P(x,y)>P(x)P(y)$
+
+\\begin{eqnarray}
+PMI(x,y) = \log\frac{P(x,y)}{P(x)P(y)}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.6.5 相互情報量
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 相互情報量
+
+* 自己相互情報量の平均
+* 言語処理ではあんまり使わない
+
+\\begin{eqnarray}
+MI(X,Y)&=&\sum\_{x,y}P(x,y)\log\frac{P(x,y)}{P(x)P(y)} \\\\
+ &=& D\_{KL}(P(X,Y)||P(X)P(Y))
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 1.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 最適化問題
+  * 集合や関数の凸性
+  * ラグランジュ乗数法
+* 確率
+  * 離散確率分布
+  * パラメータ推定
+* 情報理論
+  * エントロピー
+  * KLダイバージェンス
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
