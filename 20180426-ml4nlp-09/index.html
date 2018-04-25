@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第9回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第9回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/04/26 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 3. クラスタリング
+  * 3.5 EMアルゴリズム
+  * 3.6 クラスタリングにおける問題点や注意点
+  * 3.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.5 EMアルゴリズム
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# Expectation-Maximization アルゴリズム
+* 隠れ変数が存在するときの尤度関数を最大化するアルゴリズム
+  * あるデータ$\boldsymbol{x}$が得られたとき
+  * $P(\boldsymbol{x})$の確率分布のパラメータ $\theta$ を求める
+  * 尤度関数$L(\theta)=P(\boldsymbol{x}; \theta)$を最大化することにより
+* 前回の混合正規分布によるクラスタリングもこれに基づく
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 注意点
+* この教科書では変な導き方をしている
+  * 下界とかの話は出てこない
+* まず混合正規分布なしでEMアルゴリズムを理解した方がいい
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# EMアルゴリズムのイメージ
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/1gskDihrwpQQ92" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# EステップとMステップ
+* Eステップ
+  * $\theta_{prev}$の元で下界を求める
+* Mステップ
+  * 下界で最大の$\theta$を求める
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 隠れ変数
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/8Oo28vko0JXtcm" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 隠れ変数
+* $p(x)$を変形して隠れ変数$z$を導入する
+* 隠れ変数なしのモデル: $p(x)$
+* 隠れ変数ありのモデル: $p(x)=\sum_z p(x, z)=\sum_z p(x|z)p(z)$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 隠れ変数の事後分布
+* 隠れ変数はデータが与えられない
+  * $P(z)$はわからない
+* $Q(z)$ を考える
+  * $Q(z)$は$x$と$\theta$が与えられたときの事後分布
+  * $Q(z) = P(z|x; \theta_{prev})$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# Eステップ: 下界の式
+\\begin{eqnarray}
+L(\theta;x,z) &=& \sum_x \log P(x; \theta) \\\\
+ &=& \sum_x \log P(x, z; \theta) \\\\
+ &=& \sum_x \log \sum_z Q(z) \frac{P(x, z; \theta)}{Q(z)} \\\\
+ Jensenの不等式 \\\\
+ &\geq& \sum_x \sum_z Q(z) \log \frac{P(x, z; \theta)}{Q(z)} \\\\
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# Eステップ: 下界を求める
+\\begin{eqnarray}
+\sum_x \sum_z Q(z) \log \frac{P(x, z; \theta)}{Q(z)}
+\\end{eqnarray}
+
+* 各$z$に対して $Q(z) = P(z|x; \theta_{prev})$ を求める
+  * 具体的な下界が決定する
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# Mステップ: 下界で最大の$\theta$を求める
+
+\\begin{eqnarray}
+\theta &=& {\arg\max}_\theta \sum_x \sum\_z Q(z) \log \frac{P(x, z; \theta)}{Q(z)} \\\\
+ &=& {\arg\max}_\theta \sum_x \sum\_z Q(z) \log \frac{P(x, z; \theta)}{Q(z)} \\\\
+ &=& {\arg\max}_\theta \sum_x \sum\_z Q(z) \\{ \log P(x, z; \theta) - \log Q(z) \\} \\\\
+ &=& {\arg\max}_\theta \sum_x \sum\_z Q(z)\log P(x, z; \theta) \\\\
+ &=& {\arg\max}_\theta \sum_x \sum\_z P(z|x; \theta_{prev}) \log P(x, z; \theta) \\\\
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+教科書の式が導出できた 🎉
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# EMアルゴリズムまとめ
+* $ \theta\_{prev} \leftarrow \theta_{init}$
+* `until 収束`
+  * Eステップ: 下界を求める
+    * 各$z$に対して $P(z|x; \theta_{prev})$ を求める
+  * Mステップ: 下界で最大の$\theta$を求める
+    * $\theta\_{max} = {\arg\max}_\theta \sum_x \sum\_z P(z|x; \theta_{prev}) \log P(x, z; \theta) $
+    * 偏微分やラグランジュの未定乗数法を使う
+  * $\theta\_{prev} \leftarrow \theta_{max}$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.6 クラスタリングにおける問題点や注意点
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 形成してほしいクラスタに則してベクトルを作る
+  * 意味的なクラスタが形成されてほしければ意味を反映した素性を使う
+* クラスタ数は地道に決めるしかない
+* k-meansやEMアルゴリズムは初期値に依存する
+  * 何度かやって平均的な結果を調べる
+* 計算に時間がかかることが多い
+* アンダーフローに気をつける
+  * logsumexpなどを使う
+* 評価が難しい
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 3.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# やったもの
+* 凝集型クラスタリング
+* k-means
+* 混合正規分布
+* EMアルゴリズム
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# やってないもの
+* スペクトラルクラスタリング
+* 制約付きクラスタリング
+* 自己組織化マップ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ツール
+* bayon
+* WEKA
+* CLUTO
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 参考
+* [【統計学】尤度って何？をグラフィカルに説明してみる。 - Qiita](https://qiita.com/kenmatsu4/items/b28d1b3b3d291d0cc698)
+* [MLAC2013 数式を使わずイメージで理解するEMアルゴリズム - Wolfeyes Bioinformatics beta](http://yagays.github.io/blog/2013/12/15/mlac-2013-em-algorithm/)
+* [EMアルゴリズム - 画像処理とか機械学習とか](http://hiro2o2.hatenablog.jp/entry/2016/02/12/202826)
+* [EMアルゴリズム](https://www.slideshare.net/sotetsukoyamada/em-36315279)
+* [oi: 今更聞けないEMアルゴリズムの解説](https://oimeg.blogspot.jp/2015/07/em.html)
+* [イェンセンの不等式 - Wikipedia](https://ja.wikipedia.org/wiki/%E3%82%A4%E3%82%A7%E3%83%B3%E3%82%BB%E3%83%B3%E3%81%AE%E4%B8%8D%E7%AD%89%E5%BC%8F)
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
