@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第13回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第13回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/05/31 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 4 分類
+  * 4.3 サポートベクトルマシン
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3 サポートベクトルマシン
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# サポートベクトルマシン
+
+* Support Vector Machine (SVM)
+* 非常に高い分類性能を持つ線形二値分類器
+  * $f(\boldsymbol{x})=\boldsymbol{w}\cdot \boldsymbol{x}-b$
+* カーネル法により非線形分類も可能
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 用語
+* $f(x) \geq 0$: となる事例は**正クラス**に属する**正例**
+* $f(x) < 0$: となる事例は**負クラス**に属する**負例**
+* 学習データのラベルはそれぞれ$+1$と$-1$
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3.1 マージン最大化
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# マージン最大化
+* SVMを学習する方針
+* 正クラスと負クラスを分離する超平面を両クラスから最も遠く設定する
+* $\frac{1}{2}w^2$を最小化する最適化問題として解ける
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3.2 厳密制約下のSVMモデル
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+\\begin{eqnarray}
+min. & & \frac{1}{2}w^2 \\\\
+s.t. & &  y^{(i)}(w\cdot x^{(i)}-b)-1\geq 0; \forall i
+\\end{eqnarray}
+
+* 二次計画問題
+* 効率的に解くため逐次最小最適化など
+* $f(\boldsymbol{x})=\boldsymbol{w}\cdot \boldsymbol{x}-b$はラグランジュの未定乗数法で求められる
+  * 双対問題の方が解きやすい
+  * 双対問題として解くとカーネル法も適用可能
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3.3 緩和制約下のSVMモデル
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+\\begin{eqnarray}
+min. & & \frac{1}{2}w^2+C\sum_i \xi_i \\\\
+s.t. & &  y^{(i)}(w\cdot x^{(i)}-b)-1\geq -\xi_i; \forall i \\\\
+& & \xi_i \geq 0; \forall i
+\\end{eqnarray}
+
+* 厳密制約下では全事例を線形に分類できる場合のみ動作
+* $\xi_i$は$x^{(i)}$がうまく分類できていない度合い
+* $C$が大きければ厳しく、小さければ緩い
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3.4 関数距離
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* $f(x)$を関数距離とよぶ
+* $|f(x)|$は分類結果の信頼性の尺度となっている
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.3.5 多値分類器への拡張
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# one-versus-rest法
+
+* クラス数分の分類器をつくる
+* あるクラスの分類器は、そのクラスに属するか否かを分類
+* 最もスコアの高いクラスを分類結果とする
+* sklearnのデフォルト
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# ペアワイズ法 (one-versus-one法)
+* 全クラス対の分類器をつくる
+* 多数決により分類結果を決定
+* $n(n-1)/2$個の分類器が必要
+* 対象のクラス対に属する事例しか使わない
+  * 分類器は多いが各々の学習事例数は少ない
+  * 全体として学習時間は減ることが多い
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+おわり
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
