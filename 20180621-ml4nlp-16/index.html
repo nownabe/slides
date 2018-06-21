@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第16回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第16回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/06/21 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 範囲
+* 4 分類
+  * 4.6 素性選択
+    * 4.6.1 自己相互情報量
+    * 4.6.2 情報利得
+  * 4.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.6 素性選択
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 文書や文のベクトル化
+* 何を素性とするか
+* ストップワード削除など
+  * 一種の素性選択
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 素性選択
+* 性能向上、モデル軽量化のため
+* タスクごとに適した素性は異なる
+  * タスクごとにストップワードリストを作る？
+* 統計指標を使って自動で素性選択
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.6.1 自己相互情報量
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 素性値とクラス間の自己相互情報量
+* クラスに依存しない指標を用いる
+
+\\begin{eqnarray}
+PMI(w,c) &=& \log\frac{wとcの同時確率}{(wの確率)\times(cの確率)} \\\\
+I\_{average}(w) &=& \sum\_c P(c)PMI(w,c) \\\\
+I\_{max}(w) &=& \max\_c P(c)PMI(w,c)
+\\end{eqnarray}
+
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* 自己相互情報量の定義は様々
+* 各確率値は西遊推定などで求められる
+* 確率値の推定値が正確ではない場合がありよくない
+* 正確に確率値を求めるのは困難
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+  # 4.6.2 情報利得
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 情報利得
+* その情報にどれだけの価値があるか
+  * ある素性が出現したか否か
+  * クラスに関する曖昧さがいかに減少するか
+* 情報利得が高い素性は価値がある
+* 別の言い方をすると、エントロピーが低いほうが良い
+* 出現回数が少ないと異常値っぽくなる
+  * 自己相互情報量よりまし
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 4.7 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* ナイーブベイズ分類器
+* サポートベクトルマシン
+  * カーネル法
+* 対数線形モデル
+* 素性選択
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+* やらなかったけど有名なやつ
+  * k-近傍法
+  * 決定木
+  * ブースティング
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+おわり
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
