@@ -1,0 +1,360 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>言語処理のための機械学習入門 第22回</title>
+  <meta name="description" content="言語処理のための機械学習入門 第22回">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="nownabe">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/white.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <script>
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = window.location.search.match(/print-pdf/gi) ? "css/print/pdf.css" : "css/print/paper.css";
+		document.getElementsByTagName("head")[0].appendChild(link);
+	</script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section data-markdown>
+    <script type="text/template">
+# 言語処理のための機械学習入門
+
+機械学習勉強会
+
+2018/08/02 @nownabe
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 範囲
+* 6 実験の仕方など
+  * 6.1 プログラムとデータの入手
+  * 6.2 分類問題の実験の仕方
+  * 6.3 評価指標
+  * 6.4 検定
+  * 6.5 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6 実験の仕方など
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.1 プログラムとデータの入手
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## プログラムの入手
+
+* 自信あれば作ってよい
+  * 理解が深まる
+* ググれば見つかる
+  * README読もう
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## データの入手
+
+* 自分で作っても良い
+* 誰かがすでに作ってることもある
+* ググればいろいろ見つかる
+* ワークショップで作成してることもある
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.2 分類問題の実験の仕方
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# データセットが入手できたら
+
+* 事例数を確認
+  * データサイズと呼んでもいいが、データ数はだめ
+* 1文書あたりの平均語数などの統計データを計算
+
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.2.1 データの分け方と交差検定
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## データの分け方
+
+* 評価データ
+* 訓練データ
+* (開発データ)
+  * モデルのチューニング用
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 交差検定
+
+* データをn分割する
+* 1個を評価データ、n-1個を訓練データ
+* すべての組み合わせで評価する
+* 統計的検定とは無関係
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.2.2 多クラスと複数ラベル
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## クラス数による分類
+
+* 多クラスデータセット
+  * クラスの種類数が2より大きい
+* 2値クラスデータセット
+  * クラスの種類数が2
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 事例のラベル数による分類
+
+* 複数ラベルデータセット
+  * 1つの事例に1つ以上のラベル
+* 単一ラベルデータセット
+  * 1つの事例に1つのラベル
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 分類問題
+
+* 2値分類問題
+  * 2値クラス、単一ラベルのデータセット
+* 多値分類問題
+  * 多クラス、単一ラベルのデータセット
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.3 評価指標
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.1 分類正解率
+
+* 分類正解率 Classification accuracy
+* または単に 正解率 Accuracy
+
+\\begin{eqnarray}
+(Accuracy) = \frac{(正解した評価事例数)}{(全評価事例数)}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.2 精度と再現率
+
+* 特定のクラス$C$に対して定義される
+
+\\begin{eqnarray}
+(精度) &=& \frac{(Cの正解正例数)}{(Cであると予測された事例数)} \\\\
+(再現率) &=& \frac{(Cの正解正例数)}{(Cの全正例数)}
+\\end{eqnarray}
+
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+### 再現率-精度曲線
+
+* 精度と再現率はトレードオフの関係
+* しきい値を変化させて精度と再現率をプロット
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.3 精度と再現率の統合
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## F値
+
+* 精度と再現率の調和平均
+
+\\begin{eqnarray}
+(F値) = \frac{2 \times (精度) \times (再現率)}{(精度) + (再現率)}
+\\end{eqnarray}
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 再現率 / 精度 break-even
+
+* 再現率-精度曲線の$y=x$と交差する点
+* 点がない場合は線形補間で求める
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 11点平均精度
+
+* 再現率が $0.0, 0.1, \dots, 1.0$ となるような精度の算術平均
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.4 多クラスデータを用いる場合の実験設定
+
+* 1つの多値分類問題として評価
+  * 各事例の正しいクラスを予測できたら正解
+  * 複数ラベルの場合
+    * 全ラベルを予測できたら正解
+    * 1つでもラベルを予測できたら正解
+* 各クラスの2値分類問題として評価
+  * 最終的に各クラスの結果を統合
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.5 評価指標の平均
+
+* マクロ平均
+  * 各クラスの評価値の算術平均
+* マイクロ平均
+  * 全クラスの分割表を統合してから指標を計算
+  * 各クラスのデータサイズを考慮する
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 6.3.6 チャンキングの評価指標
+
+* タグ自体の評価ではなく
+* タグから抽出された語を使う
+* 精度と再現率、F値
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.4 検定
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 統計的検定
+
+* 結果の差が偶然ではないことを示す
+* 帰無仮説
+  * 「2つの手法の評価指標が同じ確率分布に従う」という仮定
+* $p$値
+  * 帰無仮説が成り立っているときに提案手法の実験結果が出る確率
+* 例えば$p$値が0.05未満だと非常に稀なので、帰無仮説が間違いとみなす
+* 有意水準
+  * 帰無仮説を棄却する基準値
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## 符号検定
+
+* 結果に差が定義できない場合
+* 分類正解率の検定によく使われる
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## ウィルコクソンの符号付き順位和検定
+
+* 結果に差が定義できる場合
+* 回帰問題など
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+## t-検定
+
+* 結果が正規分布に従っていると考えられる場合
+* 正規分布に従っているかどうかの検定が必要
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+# 6.5 この章のまとめ
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+略
+    </script>
+  </section>
+
+  <section data-markdown>
+    <script type="text/template">
+おしまい 🎉
+    </script>
+  </section>
+
+</div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="config.js"></script>
+</body>
+</html>
